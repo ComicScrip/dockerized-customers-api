@@ -5,8 +5,10 @@
   "main": "server.js",
   "scripts": {
     "start:server": "node server.js",
-    "migrate": "node server.js",
+    "start:server:watch": "nodemon server.js",
+    "migrate": "db-migrate up",
     "start": "npm-run-all migrate start:server",
+    "start-watch": "npm-run-all migrate start:server:watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -14,9 +16,10 @@
   "dependencies": {
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "npm-run-all": "^4.1.5"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5"
+    "nodemon": "^2.0.4"
   }
 }
