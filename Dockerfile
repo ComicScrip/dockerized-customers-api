@@ -9,10 +9,12 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install
+RUN npm install -g db-migrate
+RUN npm install -g db-migrate-mysql
 
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
 COPY . .
+RUN chmod u+x ./wait-for-it.sh
+RUN ./wait-for-it.sh db:3306
+RUN db-migrate up
+
 CMD [ "node", "server.js" ]
