@@ -14,4 +14,4 @@ RUN npm install -g db-migrate-mysql
 
 COPY . .
 
-CMD [ "node", "server.js" ]
+CMD [ "npm", "start" ]
