@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "db-migrate up && node server.js",
+    "start:server": "node server.js",
+    "migrate": "node server.js",
+    "start": "npm-run-all migrate start:server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
