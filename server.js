@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -7,13 +7,13 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 // simple route
-app.get("/", (req, res) => {
-  res.json({ message: "It works" });
+app.get('/', (req, res) => {
+  res.json({ message: 'It works' });
 });
 
-require("./routes/customer.routes.js")(app);
+require('./routes/customer.routes.js')(app);
 
 // set port, listen for requests
 app.listen(PORT, () => {
-  console.log("Server is running on port " + PORT);
+  console.log('Server is running on port ' + PORT);
 });

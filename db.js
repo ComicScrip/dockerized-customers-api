@@ -1,17 +1,17 @@
-require('dotenv').config()
-const mysql = require("mysql");
+require('dotenv').config();
+const mysql = require('mysql');
 
 class Database {
-  constructor(connection) {
+  constructor (connection) {
     this.connection = connection;
   }
 
-  query(...args) {
+  query (...args) {
     return new Promise((resolve, reject) => {
       this.connection.query(...args, (err, res) => {
         if (err) reject(err);
         else resolve(res);
-      })
+      });
     });
   }
 }
@@ -28,7 +28,7 @@ const connection = mysql.createConnection({
 // open the MySQL connection
 connection.connect(error => {
   if (error) throw error;
-  console.log("Successfully connected to the database.");
+  console.log('Successfully connected to the database.');
 });
 
 module.exports = new Database(connection);
