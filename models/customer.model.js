@@ -16,8 +16,8 @@ class Customer {
     return db.query('INSERT INTO customers SET ?', newCustomer).then(res => { newCustomer.id = res.insertId; return newCustomer; });
   }
 
-  static async findById (customerId) {
-    return db.query(`SELECT * FROM customers WHERE id = ${customerId}`)
+  static async findById (id) {
+    return db.query(`SELECT * FROM customers WHERE id = ${id}`)
       .then(rows => {
         if (rows.length) {
           return Promise.resolve(rows[0]);

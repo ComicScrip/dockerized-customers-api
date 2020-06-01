@@ -5,12 +5,8 @@ const PORT = process.env.PORT || (process.env.NODE_ENV === 'test' ? 3001 : 3000)
 
 // middlewares
 app.use(express.json());
-app.get('/', (req, res) => {
-  res.redirect('/customers');
-});
-
-// routes
-require('./routes/customer.routes.js')(app);
+app.use('/customers', require('./routes/customer.routes.js'));
+app.use('/', (req, res) => { res.redirect('/customers'); });
 
 // set port, listen for requests
 const server = app.listen(PORT, () => {
@@ -18,3 +14,5 @@ const server = app.listen(PORT, () => {
 });
 
 module.exports = server;
+
+

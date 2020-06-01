@@ -38,13 +38,13 @@ class CustomersController {
 
   static async findOne (req, res) {
     try {
-      const data = await Customer.findById(req.params.customerId);
+      const data = await Customer.findById(req.params.id);
       res.send({ data });
     } catch (err) {
       if (err.kind === 'not_found') {
-        res.status(404).send({ errorMessage: `Customer with id ${req.params.customerId} not found.` });
+        res.status(404).send({ errorMessage: `Customer with id ${req.params.id} not found.` });
       } else {
-        res.status(500).send({ errorMessage: 'Error retrieving Customer with id ' + req.params.customerId });
+        res.status(500).send({ errorMessage: 'Error retrieving Customer with id ' + req.params.id });
       }
     }
   }
@@ -55,29 +55,29 @@ class CustomersController {
     }
 
     try {
-      const data = await Customer.updateById(req.params.customerId, new Customer(req.body));
+      const data = await Customer.updateById(req.params.id, new Customer(req.body));
       res.send({ data });
     } catch (err) {
       if (err.kind === 'not_found') {
-        res.status(404).send({ errorMessage: `Customer with id ${req.params.customerId} not found.` });
+        res.status(404).send({ errorMessage: `Customer with id ${req.params.id} not found.` });
       } else {
-        res.status(500).send({ errorMessage: 'Error updating Customer with id ' + req.params.customerId });
+        res.status(500).send({ errorMessage: 'Error updating Customer with id ' + req.params.id });
       }
     }
   }
 
   static async delete (req, res) {
     try {
-      await Customer.remove(req.params.customerId);
+      await Customer.remove(req.params.id);
       res.send({ message: 'Customer was deleted successfully!' });
     } catch (err) {
       if (err.kind === 'not_found') {
         res.status(404).send({
-          message: `Not found Customer with id ${req.params.customerId}.`
+          message: `Not found Customer with id ${req.params.id}.`
         });
       } else {
         res.status(500).send({
-          message: 'Could not delete Customer with id ' + req.params.customerId
+          message: 'Could not delete Customer with id ' + req.params.id
         });
       }
     }

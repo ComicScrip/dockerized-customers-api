@@ -1,8 +1,10 @@
-module.exports = app => {
-  const customersController = require('../controllers/customer.controller.js');
-  app.post('/customers', customersController.create);
-  app.get('/customers', customersController.findAll);
-  app.get('/customers/:customerId', customersController.findOne);
-  app.put('/customers/:customerId', customersController.update);
-  app.delete('/customers/:customerId', customersController.delete);
-};
+const customersController = require('../controllers/customer.controller.js');
+const router = require('express').Router();
+
+router.post('/', customersController.create);
+router.get('/', customersController.findAll);
+router.get('/:id', customersController.findOne);
+router.put('/:id', customersController.update);
+router.delete('/:id', customersController.delete);
+
+module.exports = router
