@@ -5,7 +5,7 @@ const deleteAllDBData = async () => {
   return db.deleteAllData();
 };
 const closeApp = () => new Promise((resolve, reject) => {
-  app.close((err, res) => {
+  app.close((err) => {
     if (err) reject(err);
     else resolve();
   });

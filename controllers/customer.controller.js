@@ -82,15 +82,6 @@ class CustomersController {
       }
     }
   }
-
-  static async deleteAll (req, res) {
-    try {
-      await Customer.removeAll();
-      res.send({ message: 'All Customers were deleted successfully!' });
-    } catch (err) {
-      res.status(500).send({ errorMessage: err.message || 'Some error occurred while removing all customers.' });
-    }
-  }
 }
 
 module.exports = CustomersController;

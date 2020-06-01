@@ -1,7 +1,7 @@
 const express = require('express');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || (process.env.NODE_ENV === 'test' ? 3001 : 3000);
 
 // middlewares
 app.use(express.json());
