@@ -13,6 +13,8 @@ app.get('/', (req, res) => {
 require('./routes/customer.routes.js')(app);
 
 // set port, listen for requests
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log('Server is running on port ' + PORT);
 });
+
+module.exports = server;

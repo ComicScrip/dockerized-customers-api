@@ -12,7 +12,7 @@ class CustomersController {
         res.status(400).send({ errorMessage: 'A customer with this email already exists !' });
       } else {
         const data = await Customer.create(customer);
-        res.send({ data });
+        res.status(201).send({ data });
       }
     } catch (err) {
       res.status(500).send({
