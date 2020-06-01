@@ -3,14 +3,13 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// parse requests of content-type: application/json
+// middlewares
 app.use(express.json());
-
-// simple route
 app.get('/', (req, res) => {
-  res.json({ message: 'It works' });
+  res.redirect('/customers');
 });
 
+// routes
 require('./routes/customer.routes.js')(app);
 
 // set port, listen for requests
