@@ -28,7 +28,10 @@
     ]
   },
   "semistandard": {
-    "env": ["node", "jest"]
+    "env": ["node", "jest"],
+    "ignore": [
+      "migrations/**"
+    ]
   },
   "author": "",
   "license": "ISC",
