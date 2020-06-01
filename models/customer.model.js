@@ -1,110 +1,69 @@
-const sql = require("./db.js");
+const db = require("../db.js");
 
-// constructor
-const Customer = function(customer) {
-  this.email = customer.email;
-  this.name = customer.name;
-  this.active = customer.active;
-};
+class Customer {
+  constructor(customer) {
+    this.email = customer.email;
+    this.last_name = customer.last_name;
+    this.first_name = customer.first_name;
+    this.active = customer.active;
+  }
 
-Customer.create = (newCustomer, result) => {
-  sql.query("INSERT INTO customers SET ?", newCustomer, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+  get fullName() {
+    return `${this.first_name} ${this.last_name}`;
+  }
 
-    console.log("created customer: ", { id: res.insertId, ...newCustomer });
-    result(null, { id: res.insertId, ...newCustomer });
-  });
-};
+  static async create(newCustomer) {
+    return db.query("INSERT INTO customers SET ?", newCustomer).then(res => { newCustomer.id = res.insertId; return newCustomer });
+  };
+  
+  static async findById (customerId){
+    return db.query(`SELECT * FROM customers WHERE id = ${customerId}`)
+    .then(rows => {
+        if (rows.length) {
+          return Promise.resolve(rows[0]);
+        } else {
+          return Promise.reject({kind: 'not_found'})
+        }
+    });
+  };
 
-Customer.findById = (customerId, result) => {
-  sql.query(`SELECT * FROM customers WHERE id = ${customerId}`, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
+  static async emailAlreadyExists(email){
+    return db.query(`SELECT * FROM customers WHERE email = ?`, [email])
+    .then(rows => {
+        if (rows.length) {
+          return Promise.resolve(true);
+        } else {
+          return Promise.resolve(false);
+        }
+    });
+  };
 
-    if (res.length) {
-      console.log("found customer: ", res[0]);
-      result(null, res[0]);
-      return;
-    }
+  
 
-    // not found Customer with the id
-    result({ kind: "not_found" }, null);
-  });
-};
+  static async getAll(result) {
+    return db.query("SELECT * FROM customers");
+  };
 
-Customer.getAll = result => {
-  sql.query("SELECT * FROM customers", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
+  static async updateById(id, customer) {
+    return db.query(
+      "UPDATE customers SET email = ?, first_name = ?, last_name = ?, active = ? WHERE id = ?",
+      [customer.email, customer.first_name, customer.last_name, customer.active, id]
+    );
+  };
 
-    console.log("customers: ", res);
-    result(null, res);
-  });
-};
-
-Customer.updateById = (id, customer, result) => {
-  sql.query(
-    "UPDATE customers SET email = ?, name = ?, active = ? WHERE id = ?",
-    [customer.email, customer.name, customer.active, id],
-    (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(null, err);
-        return;
+  static async remove(id) {
+    return db.query("DELETE FROM customers WHERE id = ?", id).then(res => {
+      if (res.affectedRows !== 0) {
+        return Promise.resolve();
+      } else {
+        return Promise.reject({kind: 'not_found'})
       }
+    });
+  };
 
-      if (res.affectedRows == 0) {
-        // not found Customer with the id
-        result({ kind: "not_found" }, null);
-        return;
-      }
-
-      console.log("updated customer: ", { id: id, ...customer });
-      result(null, { id: id, ...customer });
-    }
-  );
-};
-
-Customer.remove = (id, result) => {
-  sql.query("DELETE FROM customers WHERE id = ?", id, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    if (res.affectedRows == 0) {
-      // not found Customer with the id
-      result({ kind: "not_found" }, null);
-      return;
-    }
-
-    console.log("deleted customer with id: ", id);
-    result(null, res);
-  });
-};
-
-Customer.removeAll = result => {
-  sql.query("DELETE FROM customers", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} customers`);
-    result(null, res);
-  });
-};
+  static async removeAll(result) {
+    return db.query("DELETE FROM customers");
+  };
+}
 
 module.exports = Customer;

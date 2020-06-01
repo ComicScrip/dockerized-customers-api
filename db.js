@@ -1,6 +1,21 @@
 require('dotenv').config()
-
 const mysql = require("mysql");
+
+class Database {
+  constructor(connection) {
+    this.connection = connection;
+  }
+
+  query(...args) {
+    return new Promise((resolve, reject) => {
+      this.connection.query(...args, (err, res) => {
+        if (err) reject(err);
+        else resolve(res);
+      })
+    });
+  }
+}
+
 // Create a connection to the database
 const connection = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
@@ -16,4 +31,4 @@ connection.connect(error => {
   console.log("Successfully connected to the database.");
 });
 
-module.exports = connection;
+module.exports = new Database(connection);
