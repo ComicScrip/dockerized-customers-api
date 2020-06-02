@@ -7,4 +7,4 @@ router.get('/:id', customersController.findOne);
 router.put('/:id', customersController.update);
 router.delete('/:id', customersController.delete);
 
-module.exports = router
+module.exports = router;
