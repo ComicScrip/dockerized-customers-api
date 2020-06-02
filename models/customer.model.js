@@ -2,6 +2,7 @@ const db = require('../db.js');
 
 class Customer {
   constructor (customer) {
+    this.id = customer.id
     this.email = customer.email;
     this.last_name = customer.last_name;
     this.first_name = customer.first_name;
@@ -22,7 +23,9 @@ class Customer {
         if (rows.length) {
           return Promise.resolve(rows[0]);
         } else {
-          return Promise.reject(new Error({ kind: 'not_found' }));
+          const err = new Error();
+          err.kind = 'not_found';
+          return Promise.reject(err);
         }
       });
   }
@@ -46,7 +49,7 @@ class Customer {
     return db.query(
       'UPDATE customers SET email = ?, first_name = ?, last_name = ?, active = ? WHERE id = ?',
       [customer.email, customer.first_name, customer.last_name, customer.active, id]
-    );
+    ).then(() => this.findById(id));
   }
 
   static async remove (id) {
@@ -54,7 +57,9 @@ class Customer {
       if (res.affectedRows !== 0) {
         return Promise.resolve();
       } else {
-        return Promise.reject(new Error({ kind: 'not_found' }));
+        const err = new Error();
+        err.kind = 'not_found';
+        return Promise.reject(err);
       }
     });
   }

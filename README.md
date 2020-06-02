@@ -67,3 +67,5 @@ npm run tests:migrate-db
 npm run test
 ```
 
+# Docs
+You can access the docs at [localhost:3000/api-docs](http://localhost:3000/api-docs)

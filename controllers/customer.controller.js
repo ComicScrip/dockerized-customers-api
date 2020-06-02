@@ -6,6 +6,10 @@ class CustomersController {
       return res.status(400).send({ errorMessage: 'Content can not be empty!' });
     }
 
+    if (!req.body.email) {
+      return res.status(400).send({ errorMessage: 'Email can not be empty!' });
+    }
+
     try {
       const customer = new Customer(req.body);
       if (await Customer.emailAlreadyExists(customer.email)) {
@@ -24,9 +28,10 @@ class CustomersController {
   static async findAll (req, res) {
     try {
       const data = (await Customer.getAll()).map(c => new Customer(c)).map(c => ({
+        id: c.id,
         name: c.fullName,
         email: c.email,
-        active: c.active
+        active: !!c.active
       }));
       res.send({ data });
     } catch (err) {
