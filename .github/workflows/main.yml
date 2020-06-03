@@ -11,8 +11,6 @@ jobs:
     steps:
       - uses: mirromutth/mysql-action@v1.1
         with:
-          host port: 3306 # Optional, default value is 3306. The port of host
-          container port: 3306 # Optional, default value is 3306. The port of container
           character set server: 'utf8' # Optional, default value is 'utf8mb4'. The '--character-set-server' option for mysqld
           collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
           mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
@@ -26,7 +24,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm i -g db-migrate db-migrate-mysql
-      - run: bash -c "chmod u+x ./wait-for-it.sh && ./wait-for-it.sh localhost:3306"
       - run: DB_HOST=localhost DB_PORT=3306 DB_USER=tester DB_PASS=WildWildPass DB_NAME=customer_api_database_test db-migrate up
       - run: npm test
         env:
