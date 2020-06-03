@@ -18,8 +18,7 @@ app.use('/', (req, res) => { res.redirect('/customers'); });
 
 // set port, listen for requests
 const server = app.listen(PORT, () => {
-  console.log('Server is running on port ' + PORT);
+  console.log(`Server is running on port ${PORT}`);
 });
-
 
 module.exports = server;
