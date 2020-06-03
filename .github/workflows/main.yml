@@ -18,7 +18,7 @@ jobs:
           mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
           mysql database: 'customer_api_database_test' # Optional, default value is "test". The specified database which will be create
           mysql user: 'tester' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-          mysql password: 'WildWildP@$$' # Required if "mysql user" exists. The password for the "mysql user"
+          mysql password: 'WildWildPass' # Required if "mysql user" exists. The password for the "mysql user"
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -27,7 +27,7 @@ jobs:
       - run: npm install
       - run: npm i -g db-migrate db-migrate-mysql
       - run: bash -c "chmod u+x ./wait-for-it.sh && ./wait-for-it.sh localhost:3306"
-      - run: npm run tests:migrate-db
+      - run: DB_HOST=localhost DB_PORT=3306 DB_USER=tester DB_PASS=WildWildPass DB_NAME=customer_api_database_test db-migrate up
       - run: npm test
         env:
           CI: true
@@ -35,6 +35,6 @@ jobs:
           DB_DIALECT: mysql
           DB_HOST_TEST: localhost
           DB_USER_TEST: tester
-          DB_PASS_TEST: WildWildP@$$
+          DB_PASS_TEST: WildWildPass
           DB_NAME_TEST: customer_api_database_test
           DB_PORT_TEST: 3306
