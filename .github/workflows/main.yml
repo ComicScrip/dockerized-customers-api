@@ -17,7 +17,8 @@ jobs:
           collation server: 'utf8_general_ci' # Optional, default value is 'utf8mb4_general_ci'. The '--collation-server' option for mysqld
           mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
           mysql database: 'customer_api_database_test' # Optional, default value is "test". The specified database which will be create
-          mysql root password: 'root' # Required if "mysql user" is empty, default is empty. The root superuser password
+          mysql user: 'tester' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
+          mysql password: 'WildWildP@$$' # Required if "mysql user" exists. The password for the "mysql user"
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
@@ -25,6 +26,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm i -g db-migrate db-migrate-mysql
+      - run: bash -c "chmod u+x ./wait-for-it.sh && ./wait-for-it.sh localhost:3306"
       - run: npm run tests:migrate-db
       - run: npm test
         env:
@@ -32,7 +34,7 @@ jobs:
           PORT: 3001
           DB_DIALECT: mysql
           DB_HOST_TEST: localhost
-          DB_USER_TEST: root
-          DB_PASS_TEST: root
+          DB_USER_TEST: tester
+          DB_PASS_TEST: WildWildP@$$
           DB_NAME_TEST: customer_api_database_test
           DB_PORT_TEST: 3306
