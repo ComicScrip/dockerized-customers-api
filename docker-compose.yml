@@ -17,10 +17,13 @@ services:
       - MYSQL_DATABASE=customer_api_database
     volumes: 
       - customers-db:/var/lib/mysql
-  web:
+  backend:
     depends_on:
       - db
     build: '.'
+    volumes: 
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       - DB_USER=root
       - DB_PASS=root
