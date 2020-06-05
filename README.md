@@ -29,14 +29,14 @@ That will install and run the app with all its dependencies (including the DB) i
 You will also have two running DB servers (one for developpement and one for running automated tests), accessible respectively on `localhost:3307` and `localhost:3308` with the user `root` and the password `root`.
 
 If you want to manually run migrations you can do it with :
-docker exec dockerized-customers-api_backend_1 npm run migrate
+docker exec backend npm run migrate
 ```
 
 ### I want to run the automated tests
 ```sh
-docker exec dockerized-customers-api_backend_1 npm run tests:setup-db #(wait until the test DB is accessible at localhost:3308)
-docker exec dockerized-customers-api_backend_1 npm run tests:migrate-db
-docker exec dockerized-customers-api_backend_1 npm run test
+docker exec test_db npm run tests:setup-db #(wait until the test DB is accessible at localhost:3308)
+docker exec test_db npm run tests:migrate-db
+docker exec test_db npm run test
 ```
 
 ## Without Docker
