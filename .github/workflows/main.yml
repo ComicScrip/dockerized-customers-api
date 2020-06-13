@@ -27,11 +27,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm i -g db-migrate db-migrate-mysql
-      - name: Verify Mysql connection
-        run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"3307" --silent; do
-            sleep 1
-          done
       - run: DB_HOST=localhost DB_PORT=3307 DB_USER=tester DB_PASS=WildWildPass DB_NAME=customer_api_database_test db-migrate up
       - run: npm test
         env:
