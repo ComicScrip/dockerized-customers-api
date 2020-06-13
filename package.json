@@ -20,6 +20,7 @@
     }
   },
   "jest": {
+    "testRunner": "jest-circus/runner",
     "testEnvironment": "node",
     "setupFilesAfterEnv": [
       "<rootDir>/tests/setupTests.js"
@@ -50,6 +51,7 @@
   "devDependencies": {
     "husky": "^4.2.5",
     "jest": "^26.0.1",
+    "jest-circus": "^26.0.1",
     "nodemon": "^2.0.4",
     "supertest": "^4.0.2",
     "swagger-jsdoc": "^4.0.0",

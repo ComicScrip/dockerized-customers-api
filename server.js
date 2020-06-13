@@ -7,6 +7,20 @@ const swaggerDocument = YAML.load('./docs/swagger.yaml');
 const app = express();
 const PORT = process.env.PORT || (process.env.NODE_ENV === 'test' ? 3001 : 3000);
 
+process.on('unhandledRejection', error => {
+  console.error('unhandledRejection', JSON.stringify(error), error.stack);
+  process.exit(1);
+});
+process.on('uncaughtException', error => {
+  console.log('uncaughtException', JSON.stringify(error), error.stack);
+  process.exit(1);
+});
+process.on('beforeExit', () => {
+  app.close((err) => {
+    if (err) console.error(JSON.stringify(err), err.stack);
+  });
+});
+
 // middlewares
 app.use(express.json());
 app.use(cors());
