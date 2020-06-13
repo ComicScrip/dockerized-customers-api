@@ -5,6 +5,7 @@ on:
 jobs: 
   test: 
     runs-on: ubuntu-latest
+    options: --mount type=tmpfs,destination=/var/lib/mysql
     strategy:
       matrix:
         node-version: [12.x]
