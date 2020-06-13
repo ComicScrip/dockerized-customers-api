@@ -1,13 +1,13 @@
-name: Integration tests MySQL
+name: Run integration tests
 on:
   pull_request:
     branches: [master, dev]
 jobs: 
-  setup-db:
-    runs-on: 'ubuntu-18.04'
+  run-tests:
+    runs-on: 'ubuntu-latest'
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: ['12.18']
     services:
       test_db:
         image: 'mysql:5.7'
@@ -18,7 +18,7 @@ jobs:
           MYSQL_DATABASE: 'customer_api_database_test'
         options: '--mount type=tmpfs,destination=/var/lib/mysql'
         ports:
-          - 3306:3306
+          - 3306
     steps:
       - uses: actions/checkout@v2
       - run: 'chmod u+x ./wait-for-it.sh && ./wait-for-it.sh test_db:3306'
