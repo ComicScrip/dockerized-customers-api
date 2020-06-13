@@ -8,16 +8,17 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
-    container:
-      image: 'mysql:5.7'
-      env:
-        MYSQL_USER: 'tester'
-        MYSQL_PASSWORD: 'WildWildPass'
-        MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
-        MYSQL_DATABASE: 'customer_api_database_test'
-      options: --mount type=tmpfs,destination=/var/lib/mysql
+    services:
+      test_db:
+        image: 'mysql:5.7'
+        env:
+          MYSQL_USER: 'tester'
+          MYSQL_PASSWORD: 'WildWildPass'
+          MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+          MYSQL_DATABASE: 'customer_api_database_test'
+        options: '--mount type=tmpfs,destination=/var/lib/mysql'
     steps:
-      - run: 'docker run mysql:5.7'
+      - run: 'chmod u+x ./wait-for-it.sh && ./wait-for-it.sh test_db:3306'
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
