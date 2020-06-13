@@ -5,6 +5,9 @@ on:
 jobs: 
   setup-db:
     runs-on: 'ubuntu-18.04'
+    strategy:
+      matrix:
+        node-version: [12.x]
     container:
       image: 'mysql:5.7'
       env:
@@ -13,14 +16,6 @@ jobs:
         MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
         MYSQL_DATABASE: 'customer_api_database_test'
       options: --mount type=tmpfs,destination=/var/lib/mysql
-    steps:
-      - uses: 'mysql:5.7'
-  run-tests: 
-    runs-on: 'ubuntu-18.04'
-    needs: setup-db
-    strategy:
-      matrix:
-        node-version: [12.x]
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
