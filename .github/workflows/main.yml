@@ -9,7 +9,7 @@ jobs:
       matrix:
         node-version: ['12.18']
     services:
-      test_db:
+      mysql:
         image: 'mysql:5.7'
         env:
           MYSQL_USER: 'tester'
@@ -21,7 +21,6 @@ jobs:
           - 3306
     steps:
       - uses: actions/checkout@v2
-      - run: 'chmod u+x ./wait-for-it.sh && ./wait-for-it.sh test_db:3306'
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
