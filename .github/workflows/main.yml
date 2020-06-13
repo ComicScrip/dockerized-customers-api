@@ -8,10 +8,10 @@ jobs:
     container:
       image: 'mysql:5.7'
       env:
-        - MYSQL_USER=tester
-        - MYSQL_PASSWORD=WildWildPass
-        - MYSQL_RANDOM_ROOT_PASSWORD=yes
-        - MYSQL_DATABASE=customer_api_database_test
+        MYSQL_USER: 'tester'
+        MYSQL_PASSWORD: 'WildWildPass'
+        MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+        MYSQL_DATABASE: 'customer_api_database_test'
       options: --mount type=tmpfs,destination=/var/lib/mysql
     steps:
       - uses: 'mysql:5.7'
