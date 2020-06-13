@@ -17,6 +17,8 @@ jobs:
           MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
           MYSQL_DATABASE: 'customer_api_database_test'
         options: '--mount type=tmpfs,destination=/var/lib/mysql'
+        ports:
+          - 3306:3306
     steps:
       - uses: actions/checkout@v2
       - run: 'chmod u+x ./wait-for-it.sh && ./wait-for-it.sh test_db:3306'
