@@ -16,9 +16,9 @@ jobs:
           MYSQL_PASSWORD: 'WildWildPass'
           MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
           MYSQL_DATABASE: 'customer_api_database_test'
-        options: '--mount type=tmpfs,destination=/var/lib/mysql'
+        options: '--mount type=tmpfs,destination=/var/lib/mysql --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3'
         ports:
-          - 3306
+          - '3307:3307'
     steps:
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
@@ -27,14 +27,12 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm i -g db-migrate db-migrate-mysql
-      - name: Verify MariaDB connection
-        env:
-          PORT: ${{ job.services.mariadb.ports[3306] }}
+      - name: Verify Mysql connection
         run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"$PORT" --silent; do
+          while ! mysqladmin ping -h"127.0.0.1" -P"3307" --silent; do
             sleep 1
           done
-      - run: DB_HOST=localhost DB_PORT=3306 DB_USER=tester DB_PASS=WildWildPass DB_NAME=customer_api_database_test db-migrate up
+      - run: DB_HOST=localhost DB_PORT=3307 DB_USER=tester DB_PASS=WildWildPass DB_NAME=customer_api_database_test db-migrate up
       - run: npm test
         env:
           CI: true
@@ -44,4 +42,4 @@ jobs:
           DB_USER_TEST: tester
           DB_PASS_TEST: WildWildPass
           DB_NAME_TEST: customer_api_database_test
-          DB_PORT_TEST: 3306
+          DB_PORT_TEST: 3307
