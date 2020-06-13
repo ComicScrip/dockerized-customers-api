@@ -3,19 +3,23 @@ on:
   pull_request:
     branches: [master, dev]
 jobs: 
-  test: 
-    runs-on: ubuntu-latest
-    options: --mount type=tmpfs,destination=/var/lib/mysql
+  setup-db:
+    runs-on: 'ubuntu-18.04'
+    container:
+      image: 'mysql:5.7'
+      env:
+        - MYSQL_USER=tester
+        - MYSQL_PASSWORD=WildWildPass
+        - MYSQL_RANDOM_ROOT_PASSWORD=yes
+        - MYSQL_DATABASE=customer_api_database_test
+      options: --mount type=tmpfs,destination=/var/lib/mysql
+  run-tests: 
+    runs-on: 'ubuntu-18.04'
+    needs: setup-db
     strategy:
       matrix:
         node-version: [12.x]
     steps:
-      - uses: mirromutth/mysql-action@v1.1
-        with:
-          mysql version: '5.7' # Optional, default value is "latest". The version of the MySQL
-          mysql database: 'customer_api_database_test' # Optional, default value is "test". The specified database which will be create
-          mysql user: 'tester' # Required if "mysql root password" is empty, default is empty. The superuser for the specified database. Can use secrets, too
-          mysql password: 'WildWildPass' # Required if "mysql user" exists. The password for the "mysql user"
       - uses: actions/checkout@v2
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
