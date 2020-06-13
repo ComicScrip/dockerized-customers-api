@@ -29,9 +29,9 @@ jobs:
       - run: npm i -g db-migrate db-migrate-mysql
       - name: Verify MariaDB connection
         env:
-          PORT: ${{ job.services.mysql.ports[3306] }}
+          PORT: ${{ job.services.mysql.ports[3307] }}
         run: |
-          while ! mysqladmin ping -h"127.0.0.1" -P"$PORT"; do
+          while ! mysqladmin ping -h "127.0.0.1" -P "3307"; do
             sleep 1
           done
       - run: DB_HOST=localhost DB_PORT=3307 DB_USER=tester DB_PASS=WildWildPass DB_NAME=customer_api_database_test db-migrate up
