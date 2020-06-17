@@ -2,6 +2,7 @@ version: '3'
 
 services:
   test_db:
+    container_name: test_db
     image: 'mysql:5.7'
     ports:
       - "3308:3306"
@@ -12,6 +13,7 @@ services:
 
   db:
     image: 'mysql:5.7'
+    container_name: db
     ports:
       - "3307:3306"
     environment:
@@ -19,10 +21,14 @@ services:
       - MYSQL_DATABASE=customer_api_database
     volumes: 
       - customers-db:/var/lib/mysql
-  web:
+  backend:
+    container_name: backend
     depends_on:
       - db
     build: '.'
+    volumes: 
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
     environment:
       - DB_USER=root
       - DB_PASS=root
@@ -31,7 +37,7 @@ services:
       - DB_PORT=3306
     ports:
       - "3000:3000"
-    command: 'bash -c "chmod u+x ./wait-for-it.sh && ./wait-for-it.sh db:3306 && npm start"'
+    command: 'bash -c "chmod u+x ./wait-for-it.sh && ./wait-for-it.sh db:3306 && npm run start-watch"'
   
 volumes:
   customers-db:
