@@ -24,23 +24,29 @@ Install Docker on your OS.
 ```sh
 docker-compose up -d
 ```
-That will install and run the app with all its dependencies (including the DB) in isolated containers. With this single command, you will have a fully functionnal API listening by default on `localhost:5000`. 
+That will install and run the app with all its dependencies (including the DB) in isolated containers. With this single command, you will have a fully functionnal API listening by default on [localhost:5000](http://localhost:5000). 
 
 You will also have two running DB servers (one for developpement and one for running automated tests), accessible respectively on `localhost:3307` and `localhost:3308` with the user `root` and the password `root`.
 
 If you want to manually run migrations you can do it with :
-docker exec backend npm run migrate
+```sh 
+docker exec backend npm run migrate-db
 ```
 
 ### I want to run the automated tests
 ```sh
 npm run test:setup-and-run
 ```
+Once you've exectued the previous command, you can just do : 
+```sh
+npm run test
+```
+It will just execute the tests without settting up the DB and running the migrations
 
 ## Without Docker
 
 Install MySQL (5.7) on your OS. 
-Then, change variables in .env file to match you db settings.
+Then, change variables in .env file to match your MySQL DB settings.
 
 ### Run the app
 
@@ -57,4 +63,4 @@ npm run test
 ```
 
 # Docs
-You can access the docs at [localhost:5000/api-docs](http://localhost:3000/api-docs)
+You can access the docs at [localhost:5000/api-docs](http://localhost:5000/api-docs)

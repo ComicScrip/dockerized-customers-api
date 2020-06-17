@@ -14,7 +14,8 @@
     "test": "jest --testRunner='jest-circus/runner' --maxWorkers=1",
     "test:setup-db": "docker-compose up -d test_db",
     "test:migrate-db": "db-migrate up -e test",
-    "test:setup-and-run": "npm run test:setup-db && sleep 10 && npm run test:migrate-db && npm test",
+    "wait-for-db": "node wait10s.js",
+    "test:setup-and-run": "npm-run-all test:setup-db wait-for-db test:migrate-db test",
     "lint": "semistandard --fix"
   },
   "husky": {
