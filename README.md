@@ -34,17 +34,15 @@ docker exec backend npm run migrate
 
 ### I want to run the automated tests
 ```sh
-docker exec test_db npm run tests:setup-db #(wait until the test DB is accessible at localhost:3308)
-docker exec test_db npm run tests:migrate-db
+docker exec test_db npm run test:setup-db #(wait until the test DB is accessible at localhost:3308)
+docker exec test_db npm run test:migrate-db
 docker exec test_db npm run test
 ```
 
 ## Without Docker
 
 Install MySQL (5.7) on your OS. 
-Then, create two MySQL server instances, both accessible with the user `root` and the password `root` : 
-- One listening on port 3307 with an empty database called `customer_api_database`. 
-- One listening on port 3308 with an empty database called `customer_api_database_test`.
+Then, change variables in .env file to match you db settings.
 
 ### Run the app
 
@@ -56,9 +54,9 @@ npm run start:watch
 ### Run the automated tests
 
 ```sh
-npm run tests:migrate-db
+npm run test:migrate-db
 npm run test
 ```
 
 # Docs
-You can access the docs at [localhost:3000/api-docs](http://localhost:3000/api-docs)
+You can access the docs at [localhost:5000/api-docs](http://localhost:3000/api-docs)

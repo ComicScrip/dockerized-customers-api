@@ -6,12 +6,14 @@
   "scripts": {
     "start:server": "node server.js",
     "start:server:watch": "nodemon -e yaml,js,json server.js",
-    "migrate": "db-migrate up",
-    "start": "npm-run-all migrate start:server",
-    "start-watch": "npm-run-all migrate start:server:watch",
-    "tests:setup-db": "docker-compose up -d test_db",
-    "tests:migrate-db": "db-migrate up -e test",
-    "test": "jest ",
+    "setup-db": "docker-compose up -d db",
+    "migrate-db": "db-migrate up",
+    "start": "npm-run-all migrate-db start:server",
+    "start:watch": "npm-run-all migrate start:server:watch",
+    "test": "jest --testRunner='jest-circus/runner' --maxWorkers=1",
+    "test:setup-db": "docker-compose up -d test_db",
+    "test:migrate-db": "db-migrate up -e test",
+    "test:setup-and-run": "npm run test:setup-db && sleep 10 && npm run test:migrate-db && npm test",
     "lint": "semistandard --fix"
   },
   "husky": {
