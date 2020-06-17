@@ -38,8 +38,8 @@ app.use((err, req, res, next) => {
 app.use((error, req, res, next) => {
   console.error(error.stack);
   res.status(500).send('Something Broke!');
-})
-app.set('x-powered-by', false)
+});
+app.set('x-powered-by', false);
 
 // set port, listen for requests
 const server = app.listen(PORT, () => {

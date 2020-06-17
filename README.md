@@ -24,7 +24,7 @@ Install Docker on your OS.
 ```sh
 docker-compose up -d
 ```
-That will install and run the app with all its dependencies (including the DB) in isolated containers. With this single command, you will have a fully functionnal API listening by default on `localhost:3000`. 
+That will install and run the app with all its dependencies (including the DB) in isolated containers. With this single command, you will have a fully functionnal API listening by default on `localhost:5000`. 
 
 You will also have two running DB servers (one for developpement and one for running automated tests), accessible respectively on `localhost:3307` and `localhost:3308` with the user `root` and the password `root`.
 
@@ -34,9 +34,7 @@ docker exec backend npm run migrate
 
 ### I want to run the automated tests
 ```sh
-docker exec test_db npm run test:setup-db #(wait until the test DB is accessible at localhost:3308)
-docker exec test_db npm run test:migrate-db
-docker exec test_db npm run test
+npm run test:setup-and-run
 ```
 
 ## Without Docker
@@ -47,7 +45,7 @@ Then, change variables in .env file to match you db settings.
 ### Run the app
 
 ```sh
-npm run migrate
+npm run migrate-db
 npm run start:watch
 ```
 
