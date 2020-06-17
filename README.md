@@ -46,7 +46,7 @@ It will just execute the tests without settting up the DB and running the migrat
 ## Without Docker
 
 Install MySQL (5.7) on your OS. 
-Then, change variables in .env file to match your MySQL DB settings.
+Then, change variables in .env file to match your MySQL DB settings (you'll have to manually create the dev and tess databases in your MySQL instance).
 
 ### Run the app
 
